@@ -4,10 +4,10 @@ import axios from "axios";
 
 import styles from "./styles";
 import logo from "../../assets/pokeLogo.png";
-import searchIcon from '../../assets/searchIcon.png';
+import searchIcon from "../../assets/searchIcon.png";
 
 export default function Home() {
-  const [searchValue, setSearchValue] = React.useState("")
+  const [searchValue, setSearchValue] = React.useState("");
   return (
     <RN.SafeAreaView style={styles.container}>
       <RN.ImageBackground source={logo} style={styles.logo} resizeMode="cover">
@@ -15,13 +15,44 @@ export default function Home() {
           Which Pokemon are you looking for?
         </RN.Text>
         <RN.View style={styles.inputContainer}>
-          <RN.TextInput 
-            placeholder="Type the name or id of the pokemon" 
+          <RN.TextInput
+            placeholder="Type the name or id of the pokemon"
             value={searchValue}
-            onChangeText={(text)=> setSearchValue(text)}
+            onChangeText={(text) => setSearchValue(text)}
           />
           <RN.TouchableOpacity>
-            <RN.Image source={searchIcon} style={styles.searchIcon}/>
+            <RN.Image source={searchIcon} style={styles.searchIcon} />
+          </RN.TouchableOpacity>
+        </RN.View>
+        <RN.View style={styles.buttonsContainer}>
+          <RN.TouchableOpacity
+            style={{ backgroundColor: "#04DB68", ...styles.navigationButton }}
+          >
+            <RN.Text style={styles.buttonTitle}>PokéDex</RN.Text>
+          </RN.TouchableOpacity>
+
+          <RN.TouchableOpacity
+            style={{ backgroundColor: "#007AF1", ...styles.navigationButton }}
+          >
+            <RN.Text style={styles.buttonTitle}>Abilities</RN.Text>
+          </RN.TouchableOpacity>
+
+          <RN.TouchableOpacity
+            style={{ backgroundColor: "#764887", ...styles.navigationButton }}
+          >
+            <RN.Text style={styles.buttonTitle}>Locations</RN.Text>
+          </RN.TouchableOpacity>
+
+          <RN.TouchableOpacity style={{backgroundColor: '#F95151',...styles.navigationButton}}>
+            <RN.Text style={styles.buttonTitle}>Moves</RN.Text>
+          </RN.TouchableOpacity>
+
+          <RN.TouchableOpacity style={{backgroundColor: '#FFC600',...styles.navigationButton}}>
+            <RN.Text style={styles.buttonTitle}>Items</RN.Text>
+          </RN.TouchableOpacity>
+
+          <RN.TouchableOpacity style={{backgroundColor: '#A15B5E',...styles.navigationButton}}>
+            <RN.Text style={styles.buttonTitle}>Generations</RN.Text>
           </RN.TouchableOpacity>
         </RN.View>
       </RN.ImageBackground>

@@ -1,12 +1,12 @@
 import * as RN from "react-native";
 import * as React from "react";
-import axios from "axios";
+import { NavigationContainer } from '@react-navigation/native';
 
 import styles from "./styles";
 import logo from "../../assets/pokeLogo.png";
 import searchIcon from "../../assets/searchIcon.png";
 
-export default function Home() {
+export function Home({navigation}) {
   const [searchValue, setSearchValue] = React.useState("");
   return (
     <RN.SafeAreaView style={styles.container}>
@@ -27,8 +27,9 @@ export default function Home() {
         <RN.View style={styles.buttonsContainer}>
           <RN.TouchableOpacity
             style={{ backgroundColor: "#04DB68", ...styles.navigationButton }}
+            onPress={()=> navigation.navigate('Pokédex')}
           >
-            <RN.Text style={styles.buttonTitle}>PokéDex</RN.Text>
+            <RN.Text style={styles.buttonTitle}>Pokédex</RN.Text>
           </RN.TouchableOpacity>
 
           <RN.TouchableOpacity

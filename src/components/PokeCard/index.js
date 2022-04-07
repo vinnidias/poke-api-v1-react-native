@@ -53,7 +53,7 @@ export function PokeCard({ props, key }) {
             style={styles.logo}
             resizeMode="cover"
           >
-            <RN.Text style={styles.id}></RN.Text>
+            <RN.Text style={styles.id}>#{data && data.id}</RN.Text>
             <RN.Image source={{ uri: imgPath }} style={styles.tinyLogo} />
           </RN.ImageBackground>
         </RN.TouchableOpacity>

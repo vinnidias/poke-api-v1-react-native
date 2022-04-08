@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import styles from "./styles";
 import logo from "../../assets/pokeLogo.png";
 import searchIcon from "../../assets/searchIcon.png";
+import { pokeApiClient } from "../../services/pokeApiClient";
 
 export function Home({navigation}) {
   const [searchValue, setSearchValue] = React.useState("");
@@ -12,7 +13,7 @@ export function Home({navigation}) {
     <RN.SafeAreaView style={styles.container}>
       <RN.ImageBackground source={logo} style={styles.logo} resizeMode="cover">
         <RN.Text style={styles.font}>
-          Which Pokemon are you looking for?
+          Which Pokémon are you looking for?
         </RN.Text>
         <RN.View style={styles.inputContainer}>
           <RN.TextInput
@@ -20,7 +21,18 @@ export function Home({navigation}) {
             value={searchValue}
             onChangeText={(text) => setSearchValue(text)}
           />
-          <RN.TouchableOpacity>
+          <RN.TouchableOpacity
+             onPress={async ()=> {
+               try {
+                 const path = await pokeApiClient.get(`pokemon/${searchValue}`);
+                 const data = path.data;
+                 navigation.navigate('Details', {...data})
+                 setSearchValue('')
+               } catch (error) {
+                 console.log('error on home: ', error)
+               }
+             }}
+          >
             <RN.Image source={searchIcon} style={styles.searchIcon} />
           </RN.TouchableOpacity>
         </RN.View>

@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { pokeApiClient } from "../../services/pokeApiClient";
 import { PokeCard } from "../../components/PokeCard";
 import styles from "./styles";
+import pokeball from '../../assets/pokeBallGif.gif'
 
 export function Pokedex({ navigation }) {
   const [list, setList] = React.useState([]);
@@ -26,14 +27,16 @@ export function Pokedex({ navigation }) {
 
   return (
     <RN.SafeAreaView style={styles.container}>
-      <RN.ScrollView style={styles.srollContainer}>
+      {list.length !== 0 ? <RN.ScrollView style={styles.srollContainer}>
         {list.map((item, index) => {
-          return <PokeCard props={item} key={index} />;
+          return <PokeCard props={item} key={index} onPress={()=> navigation.navigate('Details', {...item})}/>;
         })}
         <RN.TouchableOpacity>
           <RN.Text onPress={()=> setOffset(offset + 20)} style={styles.loadMore}>Load more...</RN.Text>
         </RN.TouchableOpacity>
       </RN.ScrollView>
+      : <RN.Image source={pokeball} style={{alignSelf: "center", marginTop: '50%'}}/>  
+    }
     </RN.SafeAreaView>
   );
 }

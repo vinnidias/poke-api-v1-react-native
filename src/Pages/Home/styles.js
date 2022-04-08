@@ -2,7 +2,8 @@ import * as RN from "react-native";
 
 const styles = RN.StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    maxHeight: 600
 
   },
   logo: {
@@ -52,7 +53,7 @@ const styles = RN.StyleSheet.create({
   navigationButton: {
     borderRadius: 20,
     width: '46%',
-    height: 120,
+    height: 60,
     marginVertical: 10,
     marginHorizontal: 8,
     alignItems: "center",

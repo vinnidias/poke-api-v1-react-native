@@ -4,43 +4,24 @@ import * as React from "react";
 import { pokeApiClient } from "../../services/pokeApiClient";
 import { colorTypesSelector } from "../../utils/colorTypesSelector";
 import { changeFirstStringIndexToUpperCase } from '../../utils/changeFirstStringIndexToUpperCase';
+import { PokeDataContexts } from "../../contexts/PokeDataContexts";
 import styles from "./styles";
 
-export function Details({ route, navigation }) {
-  const { ...item } = route.params;
-  const { ...data } = route.params;
-
-  const [initialData, setInitialData] = React.useState({ ...data });
-  const [bgColor, setBgColor] = React.useState(
-    data.types ? colorTypesSelector(data.types[0].type.name) : ""
-  );
-
-  React.useMemo(() => {
-    (async () => {
-      try {
-        const path = await pokeApiClient.get(`pokemon/${item.name}`);
-        const res = path.data;
-        console.log("get with item name: ", res.name);
-        setInitialData({ ...res });
-        setBgColor(colorTypesSelector(res.types[0].type.name));
-      } catch (error) {
-        console.log("error: ", error);
-      }
-    })();
-  }, []);
+export function Details({ navigation }) {
+  const { fullPokemonData } = React.useContext(PokeDataContexts);
 
   return (
     <RN.View style={{ flex: 1 }}>
-      <RN.View style={{ backgroundColor: bgColor, ...styles.headerContainer }}>
+      <RN.View style={{ backgroundColor: colorTypesSelector(fullPokemonData.types[0].type.name), ...styles.headerContainer }}>
         <RN.View>
           <RN.Text style={styles.titleTexts}>
-            {changeFirstStringIndexToUpperCase(initialData.name)}
+            {changeFirstStringIndexToUpperCase(fullPokemonData.name)}
           </RN.Text>
         </RN.View>
         <RN.View>
-          {initialData.sprites && <RN.Image
+          {fullPokemonData.sprites && <RN.Image
             source={{
-              uri: initialData.sprites.other["official-artwork"].front_default,
+              uri: fullPokemonData.sprites.other["official-artwork"].front_default,
             }}
             style={styles.image}
           />}

@@ -38,7 +38,7 @@ export function PokeCard({ props, onPress }) {
           : "white",
         ...styles.container,
       }}
-      onPress={onPress}
+      onPress={()=> onPress(data)}
     >
       <RN.View style={styles.info}>
         <RN.Text style={styles.name}>

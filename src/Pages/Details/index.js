@@ -3,7 +3,7 @@ import * as React from "react";
 
 import { pokeApiClient } from "../../services/pokeApiClient";
 import { colorTypesSelector } from "../../utils/colorTypesSelector";
-import { changeFirstStringToUperCase } from '../../utils/changeFirstStringToUperCase';
+import { changeFirstStringIndexToUpperCase } from '../../utils/changeFirstStringIndexToUpperCase';
 import styles from "./styles";
 
 export function Details({ route, navigation }) {
@@ -34,7 +34,7 @@ export function Details({ route, navigation }) {
       <RN.View style={{ backgroundColor: bgColor, ...styles.headerContainer }}>
         <RN.View>
           <RN.Text style={styles.titleTexts}>
-            {changeFirstStringToUperCase(initialData.name)}
+            {changeFirstStringIndexToUpperCase(initialData.name)}
           </RN.Text>
         </RN.View>
         <RN.View>

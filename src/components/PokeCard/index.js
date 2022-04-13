@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import axios from "axios";
 
 import { colorTypesSelector } from "../../utils/colorTypesSelector";
-import { changeFirstStringToUpperCase } from '../../utils/changeFirstStringIndexToUpperCase';
+import { changeFirstStringIndexToUpperCase } from '../../utils/changeFirstStringIndexToUpperCase';
 import styles from "./styles";
 import logo from "../../assets/pokeLogo.png";
 import pokeball from '../../assets/pokeBallGif.gif'
@@ -42,7 +42,7 @@ export function PokeCard({ props, onPress }) {
     >
       <RN.View style={styles.info}>
         <RN.Text style={styles.name}>
-          {changeFirstStringToUpperCase(props.name)}
+          {changeFirstStringIndexToUpperCase(props.name)}
         </RN.Text>
         {data &&
           data.types.map((item, index) => {

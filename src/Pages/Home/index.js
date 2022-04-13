@@ -24,7 +24,7 @@ export function Home({navigation}) {
           <RN.TouchableOpacity
              onPress={async ()=> {
                try {
-                 const path = await pokeApiClient.get(`pokemon/${searchValue}`);
+                 const path = await pokeApiClient.get(`pokemon/${searchValue.toLocaleLowerCase().trim()}`);
                  const data = path.data;
                  navigation.navigate('Details', {...data})
                  setSearchValue('')

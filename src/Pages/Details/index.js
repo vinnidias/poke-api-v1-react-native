@@ -1,7 +1,9 @@
 import * as RN from "react-native";
 import * as React from "react";
+
 import { pokeApiClient } from "../../services/pokeApiClient";
 import { colorTypesSelector } from "../../utils/colorTypesSelector";
+import { changeFirstStringToUperCase } from '../../utils/changeFirstStringToUperCase';
 import styles from "./styles";
 
 export function Details({ route, navigation }) {
@@ -32,8 +34,7 @@ export function Details({ route, navigation }) {
       <RN.View style={{ backgroundColor: bgColor, ...styles.headerContainer }}>
         <RN.View>
           <RN.Text style={styles.titleTexts}>
-            {initialData.name.charAt(0).toUpperCase() +
-              initialData.name.slice(1, initialData.name.lenght)}
+            {changeFirstStringToUperCase(initialData.name)}
           </RN.Text>
         </RN.View>
         <RN.View>

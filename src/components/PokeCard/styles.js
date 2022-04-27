@@ -1,51 +1,56 @@
-import { StyleSheet } from "react-native"
+import styled  from "styled-components/native"
+import { colorTypesSelector } from "../../utils/colorTypesSelector";
 
-const styles = StyleSheet.create({
-  container: {
-    display: "flex",
-    flexDirection: 'row',
-    alignSelf: 'center',
-    justifyContent: 'space-between',
-    
-    width: '80%',
-    height: 150,
-    padding: 2,
-    margin: 10,
-    padding: 10,
-    
-    borderRadius: 20
-  },
+export const TouchableContainer = styled.TouchableOpacity`
+  background-color: ${props => colorTypesSelector(props.typeBackgroundColor).replace(/"/g, "")};
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+  justify-content: space-between;
 
-  name: {
-    fontSize: 22,
-    color: 'white',
-    fontWeight: 'bold'
-  },
+  width: 80%;
+  height: 150px;
+  padding: 5px;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+`;
 
-  type: {
-    fontSize: 16,
-    color: 'white',
-    fontWeight: 'bold',
-    backgroundColor: 'rgba(255, 255, 255, 0.3)',
-    margin: 2,
-    borderRadius: 15,
-    padding: 1,
-    textAlign: 'center'
-  },
+export const DataContainer = styled.View`
+`;
 
-  logo: {
-    width: 90,
-    height: 90,
-  },
+export const Name = styled.Text`
+  font-size: 16px;
+  color: white;
+  font-weight: bold;
+`;
 
-  id: {
-    opacity: .4,
-  },
+export const Type = styled.Text`
+  font-size: 16px;
+  color: white;
+  font-weight: bold;
+  background-color: ${props => colorTypesSelector(props.typeColor)};
+  margin: 3px;
+  border-radius: 15px;
+  padding: 4px;
+  text-align: center;
+`;
 
-  tinyLogo: {
-    width: 100,
-    height: 100,
-  },
-})
+export const PokeBallBackground = styled.ImageBackground`
+  width: 90px;
+  height: 90px;
+`;
 
-export default styles
+export const PokeId = styled.Text`
+  opacity: .5;
+`;
+
+export const PokeSprite = styled.Image`
+  width: 100px;
+  height: 100px;
+`;
+
+export const LoaderIcon = styled.Image`
+  width: 90px;
+  height: 90px;
+`;

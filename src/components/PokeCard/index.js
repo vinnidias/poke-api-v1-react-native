@@ -1,21 +1,30 @@
-import * as RN from "react-native";
-import * as React from "react";
+import { useMemo, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import axios from "axios";
 
-import { colorTypesSelector } from "../../utils/colorTypesSelector";
-import { changeFirstStringIndexToUpperCase } from '../../utils/changeFirstStringIndexToUpperCase';
-import styles from "./styles";
+import { changeFirstStringIndexToUpperCase } from "../../utils/changeFirstStringIndexToUpperCase";
 import logo from "../../assets/pokeLogo.png";
-import pokeball from '../../assets/pokeBallGif.gif'
+import pokeball from "../../assets/pokeBallGif.gif";
+import {
+  TouchableContainer,
+  DataContainer,
+  Name,
+  Type,
+  PokeBallBackground,
+  PokeId,
+  PokeSprite,
+  LoaderIcon,
+} from "./styles.js";
 
 export function PokeCard({ props, onPress }) {
-  const [imgPath, setImagePath] = React.useState("./");
-  const [data, setData] = React.useState(undefined);
+  const [imgPath, setImagePath] = useState("./");
+  const [data, setData] = useState(undefined);
+  const [isLoading, setIsLoading] = useState(false);
 
-  React.useEffect(() => {
+  useMemo(() => {
     const getData = async () => {
       try {
+        setIsLoading(true);
         const path = await axios.get(props.url);
         const res = path.data;
         const dreamWorldPath = res.sprites;
@@ -23,6 +32,7 @@ export function PokeCard({ props, onPress }) {
         const imgPath = objectToArray[2][1].front_default;
         setData({ ...res });
         setImagePath(imgPath);
+        setIsLoading(false);
       } catch (error) {
         console.log("req fail: ", error);
       }
@@ -31,35 +41,34 @@ export function PokeCard({ props, onPress }) {
   }, [props]);
 
   return (
-    <RN.TouchableOpacity
-      style={{
-        backgroundColor: data
-          ? colorTypesSelector(data.types[0].type.name)
-          : "white",
-        ...styles.container,
-      }}
-      onPress={()=> onPress(data)}
+    <TouchableContainer
+      style={{ elevation: 15, shadowColor: "#000" }}
+      onPress={() => onPress(data)}
+      typeBackgroundColor={data ? data.types[0].type.name : ""}
     >
-      <RN.View style={styles.info}>
-        <RN.Text style={styles.name}>
-          {changeFirstStringIndexToUpperCase(props.name)}
-        </RN.Text>
+      <DataContainer>
+        <Name>{changeFirstStringIndexToUpperCase(props.name)}</Name>
         {data &&
           data.types.map((item, index) => {
             return (
-              <RN.Text style={styles.type} key={index}>
+              <Type
+                key={index}
+                typeColor={item.type.name}
+                style={{ elevation: 3, shadowColor: "#000" }}
+              >
                 {item.type.name}
-              </RN.Text>
+              </Type>
             );
           })}
-      </RN.View>
-
-      <RN.ImageBackground source={logo} style={styles.logo} resizeMode="cover">
-        <RN.Text style={styles.id}>#{data && data.id}</RN.Text>
-       {data ? <RN.Image source={{ uri: imgPath }} style={styles.tinyLogo} />
-        : <RN.Image source={pokeball} style={styles.tinyLogo}/> 
-      }
-      </RN.ImageBackground>
-    </RN.TouchableOpacity>
+      </DataContainer>
+      <PokeBallBackground source={logo} resizeMode="cover">
+        <PokeId>#{data && data.id}</PokeId>
+        {data ? (
+          <PokeSprite source={{ uri: imgPath }} />
+        ) : (
+          <LoaderIcon source={pokeball} />
+        )}
+      </PokeBallBackground>
+    </TouchableContainer>
   );
 }

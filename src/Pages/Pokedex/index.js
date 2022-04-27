@@ -54,33 +54,4 @@ export function Pokedex({ navigation }) {
       )}
     </Container>
   );
-}
-
-// {
-//   list.length !== 0 ? (
-//     <RN.ScrollView style={styles.srollContainer}>
-//       {list.map((item, index) => {
-//         return (
-//           <PokeCard
-//             props={item}
-//             key={index}
-//             onPress={(data) => {
-//               setData(data);
-//               navigation.navigate("Details");
-//             }}
-//           />
-//         );
-//       })}
-//       <RN.TouchableOpacity>
-//         <RN.Text onPress={() => setOffset(offset + 20)} style={styles.loadMore}>
-//           Load more...
-//         </RN.Text>
-//       </RN.TouchableOpacity>
-//     </RN.ScrollView>
-//   ) : (
-//     <RN.Image
-//       source={pokeball}
-//       style={{ alignSelf: "center", marginTop: "50%" }}
-//     />
-//   );
-// }
+};

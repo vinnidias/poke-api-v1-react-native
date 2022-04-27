@@ -10,18 +10,22 @@ import { PokeDataContexts } from "../../contexts/PokeDataContexts";
 export function Pokedex({ navigation }) {
   const [list, setList] = useState([]);
   const [offset, setOffset] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const { setData } = useContext(PokeDataContexts);
 
   useMemo(() => {
     (async () => {
       try {
+        setIsLoading(true);
         const path = await pokeApiClient.get(
-          `pokemon?offset=${offset}&limit=20`
+          `pokemon?offset=${offset}&limit=10`
         );
         const res = path.data.results;
         setList((prev) => [...prev, ...res]);
+        setIsLoading(false);
       } catch (error) {
         console.log("req fail: ", { ...error });
+        setIsLoading(false);
       }
     })();
     return () => setList([]);
@@ -29,29 +33,24 @@ export function Pokedex({ navigation }) {
 
   return (
     <Container>
-      {list.length !== 0 ? (
-        <>
-          <List
-            keyboardShouldPersistTaps="handled"
-            data={list}
-            keyExtractor={(item, index) => index}
-            onEndReached={() => setOffset(offset + 20)}
-            onEndReachedThreshold={10}
-            renderItem={({ item }) => (
-              <PokeCard
-                props={item}
-                onPress={(data) => {
-                  setData(data);
-                  navigation.navigate("Details");
-                }}
-              />
-            )}
+      <List
+        keyboardShouldPersistTaps="handled"
+        data={list}
+        keyExtractor={(item, index) => index}
+        onEndReached={() => setOffset(offset + 15)}
+        onEndReachedThreshold={0.5}
+        renderItem={({ item }) => (
+          <PokeCard
+            props={item}
+            onPress={(data) => {
+              setData(data);
+              navigation.navigate("Details");
+            }}
           />
-          
-        </>
-      ) : (
-        <LoaderIcon source={pokeball} />
-      )}
+        )}
+      />
+
+      {isLoading && <LoaderIcon source={pokeball} />}
     </Container>
   );
-};
+}

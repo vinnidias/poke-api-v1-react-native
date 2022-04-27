@@ -1,60 +1,32 @@
 export const colorTypesSelector = (type) => {
-  switch (type) {
-    case "normal":
-      return "#efe4f0";
-
-    case "fire":
-      return "#ed6815";
-
-    case "fighting":
-      return "#bf3753";
-
-    case "water":
-      return "#1e90ff";
-
-    case "flying":
-      return "#d775fa";
-
-    case "grass":
-      return "#26bf33";
-
-    case "poison":
-      return "#8422a8";
-
-    case "electric":
-      return "#e0cc34";
-
-    case "ground":
-      return "#c4b678";
-
-    case "psychic":
-      return "#c4789f";
-
-    case "rock":
-      return "#9da170";
-
-    case "ice":
-      return "#5cd1d1";
-
-    case "bug":
-      return "#8fd94e";
-
-    case "dragon":
-      return "#792fe0";
-
-    case "ghost":
-      return "#663382";
-
-    case "dark":
-      return "#3d2f52";
-
-    case "steel":
-      return "#d1cfd4";
-
-    case "fairy":
-      return "#faafe6";
-
-    default:
-      break;
+  let colors = "";
+  const allColorsAvaliable = {
+    normal: "#efe4f0",
+    fire: "#ed6815",
+    fighting: "#bf3753",
+    water: "#1e90ff",
+    flying: "#d775fa",
+    grass: "#26bf33",
+    poison: "#8422a8",
+    electric: "#e0cc34",
+    ground: "#c4b678",
+    psychic: "#c4789f",
+    rock: "#9da170",
+    ice: "#5cd1d1",
+    yellow: "#eed535",
+    pink: "#f355b9",
+    ice: "#51c4e7",
+    bug: "#8fd94e",
+    dragon: "#792fe0",
+    ghost: "#fdb9e9",
+    dark: "#666666",
+    steel: "#d1cfd4",
+    fairy: "#faafe6",
+  };
+  if (type.length === 0) {
+    colors = "#DFEAC1";
+  } else {
+    colors = allColorsAvaliable?.[type];
   }
+  return colors;
 };

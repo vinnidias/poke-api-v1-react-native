@@ -1,19 +1,18 @@
-import * as RN from "react-native";
-import * as React from "react";
+import { useContext, useMemo, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 
-import styles from "./styles";
+import { Container, List, Touchable, Label, LoaderIcon } from "./styles.js";
 import pokeball from "../../assets/pokeBallGif.gif";
 import { pokeApiClient } from "../../services/pokeApiClient";
 import { PokeCard } from "../../components/PokeCard";
 import { PokeDataContexts } from "../../contexts/PokeDataContexts";
 
 export function Pokedex({ navigation }) {
-  const [list, setList] = React.useState([]);
-  const [offset, setOffset] = React.useState(0);
-  const { setData } = React.useContext(PokeDataContexts);
+  const [list, setList] = useState([]);
+  const [offset, setOffset] = useState(0);
+  const { setData } = useContext(PokeDataContexts);
 
-  React.useMemo(() => {
+  useMemo(() => {
     (async () => {
       try {
         const path = await pokeApiClient.get(
@@ -29,36 +28,59 @@ export function Pokedex({ navigation }) {
   }, [offset]);
 
   return (
-    <RN.SafeAreaView style={styles.container}>
+    <Container>
       {list.length !== 0 ? (
-        <RN.ScrollView style={styles.srollContainer}>
-          {list.map((item, index) => {
-            return (
+        <>
+          <List
+            keyboardShouldPersistTaps="handled"
+            data={list}
+            keyExtractor={(item, index) => index}
+            onEndReached={() => setOffset(offset + 20)}
+            onEndReachedThreshold={10}
+            renderItem={({ item }) => (
               <PokeCard
                 props={item}
-                key={index}
                 onPress={(data) => {
                   setData(data);
                   navigation.navigate("Details");
                 }}
               />
-            );
-          })}
-          <RN.TouchableOpacity>
-            <RN.Text
-              onPress={() => setOffset(offset + 20)}
-              style={styles.loadMore}
-            >
-              Load more...
-            </RN.Text>
-          </RN.TouchableOpacity>
-        </RN.ScrollView>
+            )}
+          />
+          
+        </>
       ) : (
-        <RN.Image
-          source={pokeball}
-          style={{ alignSelf: "center", marginTop: "50%" }}
-        />
+        <LoaderIcon source={pokeball} />
       )}
-    </RN.SafeAreaView>
+    </Container>
   );
 }
+
+// {
+//   list.length !== 0 ? (
+//     <RN.ScrollView style={styles.srollContainer}>
+//       {list.map((item, index) => {
+//         return (
+//           <PokeCard
+//             props={item}
+//             key={index}
+//             onPress={(data) => {
+//               setData(data);
+//               navigation.navigate("Details");
+//             }}
+//           />
+//         );
+//       })}
+//       <RN.TouchableOpacity>
+//         <RN.Text onPress={() => setOffset(offset + 20)} style={styles.loadMore}>
+//           Load more...
+//         </RN.Text>
+//       </RN.TouchableOpacity>
+//     </RN.ScrollView>
+//   ) : (
+//     <RN.Image
+//       source={pokeball}
+//       style={{ alignSelf: "center", marginTop: "50%" }}
+//     />
+//   );
+// }

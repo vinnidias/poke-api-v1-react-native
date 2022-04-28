@@ -1,9 +1,11 @@
-import * as RN from "react-native";
+import { View, Text, Image, ScrollView } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import * as React from "react";
 
+import { Container, HeaderContainer, Type } from "./styles.js";
 import { pokeApiClient } from "../../services/pokeApiClient";
 import { colorTypesSelector } from "../../utils/colorTypesSelector";
-import { changeFirstStringIndexToUpperCase } from '../../utils/changeFirstStringIndexToUpperCase';
+import { changeFirstStringIndexToUpperCase } from "../../utils/changeFirstStringIndexToUpperCase";
 import { PokeDataContexts } from "../../contexts/PokeDataContexts";
 import styles from "./styles";
 
@@ -11,60 +13,63 @@ export function Details({ navigation }) {
   const { fullPokemonData } = React.useContext(PokeDataContexts);
 
   return (
-    <RN.View style={{ flex: 1 }}>
-      <RN.View style={{ backgroundColor: colorTypesSelector(fullPokemonData.types[0].type.name), ...styles.headerContainer }}>
-        <RN.View>
-          <RN.Text style={styles.titleTexts}>
-            {changeFirstStringIndexToUpperCase(fullPokemonData.name)}
-          </RN.Text>
-        </RN.View>
-        <RN.View>
-          {fullPokemonData.sprites && <RN.Image
-            source={{
-              uri: fullPokemonData.sprites.other["official-artwork"].front_default,
-            }}
-            style={styles.image}
-          />}
-        </RN.View>
-      </RN.View>
-      <RN.ScrollView
-        style={styles.scrollDetails}
+    <Container style={{ flex: 1 }}>
+      <LinearGradient
+        colors={[
+          `${colorTypesSelector(fullPokemonData?.types[0].type.name)}`,
+          `${colorTypesSelector(
+            fullPokemonData.types[1] ? fullPokemonData?.types[1].type.name : ""
+          )}`,
+        ]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        locations={[0, 1]}
+        style={styles.headerContainer}
       >
-        <RN.Text style={{ fontSize: 28, fontWeight: "bold", margin: 20 }}>
-          Testing views
-        </RN.Text>
+        <View>
+          <Text style={styles.titleTexts}>
+            {changeFirstStringIndexToUpperCase(fullPokemonData.name)}
+          </Text>
+          {fullPokemonData.types.map((item, index) => {
+            return (
+              <Type
+                key={index}
+                typeColor={item.type.name}
+                style={{ elevation: 3, shadowColor: "#000" }}
+              >
+                {item.type.name}
+              </Type>
+            );
+          })}
+        </View>
+        <View>
+          {fullPokemonData.sprites && (
+            <Image
+              source={{
+                uri: fullPokemonData.sprites.other["official-artwork"]
+                  .front_default,
+              }}
+              style={styles.image}
+            />
+          )}
+        </View>
+      </LinearGradient>
 
-        <RN.Text style={{ fontSize: 28, fontWeight: "bold", margin: 20 }}>
+      <ScrollView style={styles.scrollDetails}>
+        <Text style={{ fontSize: 28, fontWeight: "bold", margin: 20 }}>
           Testing views
-        </RN.Text>
-        <RN.Text style={{ fontSize: 28, fontWeight: "bold", margin: 20 }}>
+        </Text>
+
+        <Text style={{ fontSize: 28, fontWeight: "bold", margin: 20 }}>
           Testing views
-        </RN.Text>
-        <RN.Text style={{ fontSize: 28, fontWeight: "bold", margin: 20 }}>
+        </Text>
+        <Text style={{ fontSize: 28, fontWeight: "bold", margin: 20 }}>
           Testing views
-        </RN.Text>
-        <RN.Text style={{ fontSize: 28, fontWeight: "bold", margin: 20 }}>
+        </Text>
+        <Text style={{ fontSize: 28, fontWeight: "bold", margin: 20 }}>
           Testing views
-        </RN.Text>
-        <RN.Text style={{ fontSize: 28, fontWeight: "bold", margin: 20 }}>
-          Testing views
-        </RN.Text>
-        <RN.Text style={{ fontSize: 28, fontWeight: "bold", margin: 20 }}>
-          Testing views
-        </RN.Text>
-        <RN.Text style={{ fontSize: 28, fontWeight: "bold", margin: 20 }}>
-          Testing views
-        </RN.Text>
-        <RN.Text style={{ fontSize: 28, fontWeight: "bold", margin: 20 }}>
-          Testing views
-        </RN.Text>
-        <RN.Text style={{ fontSize: 28, fontWeight: "bold", margin: 20 }}>
-          Testing views
-        </RN.Text>
-        <RN.Text style={{ fontSize: 28, fontWeight: "bold", margin: 20 }}>
-          Testing views
-        </RN.Text>
-      </RN.ScrollView>
-    </RN.View>
+        </Text>
+      </ScrollView>
+    </Container>
   );
 }

@@ -36,7 +36,7 @@ export function Pokedex({ navigation }) {
       <List
         keyboardShouldPersistTaps="handled"
         data={list}
-        keyExtractor={(item, index) => index}
+        keyExtractor={(_, index) => index}
         onEndReached={() => setOffset(offset + 15)}
         onEndReachedThreshold={0.5}
         renderItem={({ item }) => (

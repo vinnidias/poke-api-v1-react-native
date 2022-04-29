@@ -18,7 +18,7 @@ export const colorTypesSelector = (type) => {
     ice: "#51c4e7",
     bug: "#8fd94e",
     dragon: "#792fe0",
-    ghost: "#fdb9e9",
+    ghost: "#695d9e",
     dark: "#666666",
     steel: "#d1cfd4",
     fairy: "#faafe6",

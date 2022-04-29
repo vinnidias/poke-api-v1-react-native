@@ -1,8 +1,16 @@
-import { View, Text, Image, ScrollView } from "react-native";
+import { View, Text, Image, ScrollView, FlatList } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import * as React from "react";
 
-import { Container, HeaderContainer, Type } from "./styles.js";
+import {
+  Container,
+  HeaderContainer,
+  Type,
+  BaseDataView,
+  Label,
+  ScrollDetails,
+  Stats,
+} from "./styles.js";
 import { pokeApiClient } from "../../services/pokeApiClient";
 import { colorTypesSelector } from "../../utils/colorTypesSelector";
 import { changeFirstStringIndexToUpperCase } from "../../utils/changeFirstStringIndexToUpperCase";
@@ -28,7 +36,8 @@ export function Details({ navigation }) {
       >
         <View>
           <Text style={styles.titleTexts}>
-            {changeFirstStringIndexToUpperCase(fullPokemonData.name)}
+            {changeFirstStringIndexToUpperCase(fullPokemonData.name)} #
+            {fullPokemonData.id}
           </Text>
           {fullPokemonData.types.map((item, index) => {
             return (
@@ -42,6 +51,11 @@ export function Details({ navigation }) {
             );
           })}
         </View>
+        <BaseDataView>
+          <Label>Base Exp: {fullPokemonData.base_experience}</Label>
+          <Label>Height: {fullPokemonData.height}</Label>
+          <Label>Weight: {fullPokemonData.weight}</Label>
+        </BaseDataView>
         <View>
           {fullPokemonData.sprites && (
             <Image
@@ -54,22 +68,39 @@ export function Details({ navigation }) {
           )}
         </View>
       </LinearGradient>
+      <ScrollDetails>
+        <Stats
+          style={{
+            elevation: 2,
+            shadowColor: "#171717",
+            flexDirection: "row",
+            flexWrap: "wrap",
+          }}
+        >
+          {fullPokemonData.stats.map((item, index) => {
+            const rightStats = ["attack", "special-attack", "speed"];
+            const statName = item.stat.name
+            const baseStat = item.base_stat
+            return (
+              <Label
+                key={index}
+                style={{
+                  color: "grey",
+                  width: "50%",
+                  textAlign: rightStats.includes(statName) ? "right" : "left",
+                  fontSize: 15
+                }}
+              >
+                {statName.replace(/-/g, " ")}: {baseStat}
+              </Label>
+            );
+          })}
+        </Stats>
 
-      <ScrollView style={styles.scrollDetails}>
-        <Text style={{ fontSize: 28, fontWeight: "bold", margin: 20 }}>
-          Testing views
-        </Text>
+        <Stats style={{ elevation: 2, shadowColor: "#171717" }}></Stats>
 
-        <Text style={{ fontSize: 28, fontWeight: "bold", margin: 20 }}>
-          Testing views
-        </Text>
-        <Text style={{ fontSize: 28, fontWeight: "bold", margin: 20 }}>
-          Testing views
-        </Text>
-        <Text style={{ fontSize: 28, fontWeight: "bold", margin: 20 }}>
-          Testing views
-        </Text>
-      </ScrollView>
+        <Stats style={{ elevation: 2, shadowColor: "#171717" }}></Stats>
+      </ScrollDetails>
     </Container>
   );
 }

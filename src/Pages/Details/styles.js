@@ -19,6 +19,45 @@ export const Type = styled.Text`
   border-radius: 15px;
   padding: 4px;
   text-align: center;
+  margin: 5px 0px;
+`;
+
+export const BaseDataView = styled.View`
+  height: 40%;
+  width: 50%;
+  position: absolute;
+  right: 0;
+  padding: 0px 10px;
+  align-items: flex-end;
+`;
+
+export const Label = styled.Text`
+  font-size: 16px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  margin: 5px 0px;
+`;
+
+export const ScrollDetails = styled.ScrollView`
+  flex: 1;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  background-color: white;
+  margin-top: -75px;
+  padding: 25px;
+`;
+
+export const Stats = styled.View`
+  width: 98%;
+  height: 120px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background-color: #f8f8ff;
+  flex-direction: row;
+  justify-content: center;
+  padding: 10px 7px;
 `;
 
 import { StyleSheet } from "react-native";
@@ -43,7 +82,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     alignSelf: "center",
-    marginTop: "-80%"
+    marginTop: "-80%",
   },
 
   scrollDetails: {

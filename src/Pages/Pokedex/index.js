@@ -24,7 +24,6 @@ export function Pokedex({ navigation }) {
         setList((prev) => [...prev, ...res]);
         setIsLoading(false);
       } catch (error) {
-        console.log("req fail: ", { ...error });
         setIsLoading(false);
       }
     })();
@@ -37,7 +36,7 @@ export function Pokedex({ navigation }) {
         keyboardShouldPersistTaps="handled"
         data={list}
         keyExtractor={(_, index) => index}
-        onEndReached={() => setOffset(offset + 15)}
+        onEndReached={() => {setOffset(offset + 10)}}
         onEndReachedThreshold={0.5}
         renderItem={({ item }) => (
           <PokeCard

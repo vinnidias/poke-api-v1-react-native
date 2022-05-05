@@ -60,6 +60,16 @@ export const Stats = styled.View`
   padding: 10px 7px;
 `;
 
+export const Abilities = styled.View`
+  width: 98%;
+  
+  margin: 0 auto;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background-color: #f8f8ff;
+  padding: 10px 7px;
+`;
+
 import { StyleSheet } from "react-native";
 import { colorTypesSelector } from "../../utils/colorTypesSelector";
 

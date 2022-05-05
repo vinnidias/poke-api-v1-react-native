@@ -10,11 +10,14 @@ import {
   Label,
   ScrollDetails,
   Stats,
+  Abilities
 } from "./styles.js";
 import { pokeApiClient } from "../../services/pokeApiClient";
 import { colorTypesSelector } from "../../utils/colorTypesSelector";
 import { changeFirstStringIndexToUpperCase } from "../../utils/changeFirstStringIndexToUpperCase";
 import { PokeDataContexts } from "../../contexts/PokeDataContexts";
+import { AbilitiesCard } from "../../components/AbilitiesCard/index.js";
+import { ItemCard } from "../../components/ItemCard/index.js";
 import styles from "./styles";
 
 export function Details({ navigation }) {
@@ -97,9 +100,32 @@ export function Details({ navigation }) {
           })}
         </Stats>
 
-        <Stats style={{ elevation: 2, shadowColor: "#171717" }}></Stats>
+        <Abilities style={{ elevation: 2, shadowColor: "#171717", }}>
+          <Label style={{color: "grey", }}>Abilities</Label>
+          {
+            fullPokemonData.abilities.map((item, index)=> {
+              const name = item.ability.name
+              return(
+              <AbilitiesCard ability={name} key={index}></AbilitiesCard>
+              )
+            })
+          }
+        </Abilities>
 
-        <Stats style={{ elevation: 2, shadowColor: "#171717" }}></Stats>
+        <Abilities style={{ elevation: 2, shadowColor: "#171717" }}>
+          <Label style={{color: 'grey'}}>Held Items</Label>
+            {fullPokemonData.held_items.map((item, index)=> {
+             return (
+              <ItemCard props={item} key={index}>
+
+              </ItemCard>
+             )
+            })
+            }
+        </Abilities>
+        <Stats>
+
+        </Stats>
       </ScrollDetails>
     </Container>
   );

@@ -25,4 +25,4 @@ export const LoaderIcon = styled.Image`
   height: 30px;
   position: absolute;
   bottom: 0;
-`
+`;

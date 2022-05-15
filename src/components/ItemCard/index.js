@@ -22,7 +22,6 @@ export function ItemCard({ props }) {
     })();
   }, []);
 
-  console.log("props on item Card", spritePath);
   return (
     <Container>
       <Title>-{changeSpecialChracterToSpace(props.item.name)}: </Title>

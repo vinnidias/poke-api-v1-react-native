@@ -1,6 +1,14 @@
-import { View, Text, Image, ScrollView, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import * as React from "react";
+import { AntDesign } from "@expo/vector-icons";
 
 import {
   Container,
@@ -10,19 +18,41 @@ import {
   Label,
   ScrollDetails,
   Stats,
-  Abilities
+  Abilities,
 } from "./styles.js";
 import { pokeApiClient } from "../../services/pokeApiClient";
 import { colorTypesSelector } from "../../utils/colorTypesSelector";
 import { changeFirstStringIndexToUpperCase } from "../../utils/changeFirstStringIndexToUpperCase";
 import { PokeDataContexts } from "../../contexts/PokeDataContexts";
+import { TrainerContexts } from "../../contexts/TrainerContexts/index.js";
 import { AbilitiesCard } from "../../components/AbilitiesCard/index.js";
 import { ItemCard } from "../../components/ItemCard/index.js";
 import styles from "./styles";
+import { app } from "../../Firebase/app.js";
 
 export function Details({ navigation }) {
   const { fullPokemonData } = React.useContext(PokeDataContexts);
+  const { uId } = React.useContext(TrainerContexts);
+  const [isFavorite, setIsFavorite] = React.useState(false);
+  const [id, setId] = React.useState(null);
 
+  const db = app.firestore();
+  React.useEffect(() => {
+    db.collection(uId)
+      .get()
+      .then((res) => {
+        const isFavorite = res.docs.filter(
+          (value) => value.data().name === fullPokemonData.name
+        );
+        if (isFavorite.length !== 0) {
+          setIsFavorite(true);
+          isFavorite.map((value) => setId(value.id));
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  console.log(id);
   return (
     <Container style={{ flex: 1 }}>
       <LinearGradient
@@ -59,6 +89,40 @@ export function Details({ navigation }) {
           <Label>Height: {fullPokemonData.height}</Label>
           <Label>Weight: {fullPokemonData.weight}</Label>
         </BaseDataView>
+        {isFavorite ? (
+          <TouchableOpacity
+            onPress={() => {
+              db.collection(uId)
+                .doc(id)
+                .delete()
+                .then(setIsFavorite(false));
+            }}
+          >
+            <AntDesign
+              name="heart"
+              size={24}
+              color="red"
+              style={{ right: 0 }}
+            />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            onPress={() => {
+              db.collection(uId).add({
+                name: fullPokemonData.name,
+                url: `https://pokeapi.co/api/v2/pokemon/${fullPokemonData.name}`,
+              }).then(setIsFavorite(true));
+            }}
+          >
+            <AntDesign
+              name="hearto"
+              size={24}
+              color="#fdf5e6"
+              style={{ right: 0 }}
+            />
+          </TouchableOpacity>
+        )}
+
         <View>
           {fullPokemonData.sprites && (
             <Image
@@ -82,8 +146,8 @@ export function Details({ navigation }) {
         >
           {fullPokemonData.stats.map((item, index) => {
             const rightStats = ["attack", "special-attack", "speed"];
-            const statName = item.stat.name
-            const baseStat = item.base_stat
+            const statName = item.stat.name;
+            const baseStat = item.base_stat;
             return (
               <Label
                 key={index}
@@ -91,7 +155,7 @@ export function Details({ navigation }) {
                   color: "grey",
                   width: "50%",
                   textAlign: rightStats.includes(statName) ? "right" : "left",
-                  fontSize: 15
+                  fontSize: 15,
                 }}
               >
                 {statName.replace(/-/g, " ")}: {baseStat}
@@ -100,32 +164,25 @@ export function Details({ navigation }) {
           })}
         </Stats>
 
-        <Abilities style={{ elevation: 2, shadowColor: "#171717", }}>
-          <Label style={{color: "grey", }}>Abilities</Label>
-          {
-            fullPokemonData.abilities.map((item, index)=> {
-              const name = item.ability.name
-              return(
-              <AbilitiesCard ability={name} key={index}></AbilitiesCard>
-              )
-            })
-          }
+        <Abilities style={{ elevation: 2, shadowColor: "#171717" }}>
+          <Label style={{ color: "grey" }}>Abilities</Label>
+          {fullPokemonData.abilities.map((item, index) => {
+            const name = item.ability.name;
+            return <AbilitiesCard ability={name} key={index}></AbilitiesCard>;
+          })}
         </Abilities>
 
         <Abilities style={{ elevation: 2, shadowColor: "#171717" }}>
-          <Label style={{color: 'grey'}}>Held Items</Label>
-            {fullPokemonData.held_items.map((item, index)=> {
-             return (
-              <ItemCard props={item} key={index}>
-
-              </ItemCard>
-             )
-            })
-            }
+          <Label style={{ color: "grey" }}>
+            {fullPokemonData.held_items.length !== 0
+              ? "Held Items"
+              : "No Helded Items"}
+          </Label>
+          {fullPokemonData.held_items.map((item, index) => {
+            return <ItemCard props={item} key={index}></ItemCard>;
+          })}
         </Abilities>
-        <Stats>
-
-        </Stats>
+        <Stats></Stats>
       </ScrollDetails>
     </Container>
   );

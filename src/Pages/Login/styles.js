@@ -10,12 +10,18 @@ export const Container = styled.KeyboardAvoidingView`
   align-items: center;
   justify-content: center;
 `;
-
+export const TitleContainer = styled.View`
+  height: 100px;
+  flex-direction: row;
+  justify-content: center;
+  
+`
 export const Title = styled.Text`
   font-size: 36px;
   font-weight: bold;
   font-family: Roboto;
   color: #fc474d;
+  height: 100px;
 `;
 
 export const Input = styled.TextInput`
@@ -63,3 +69,9 @@ export const RegisterLink = styled.Text`
   color: dodgerblue;
   padding-left: 10px;
 `;  
+
+export const Logo = styled.Image`
+  width: 60px;
+  height: 60px;
+  margin-bottom: 10px;
+`

@@ -11,42 +11,50 @@ import {
   ButtonTitle,
   RegisterLabel,
   RegisterLink,
+  Logo,
+  TitleContainer,
 } from "./styles";
 import { app } from "../../Firebase/app";
 import { TrainerContexts } from "../../contexts/TrainerContexts";
+import logo from "../../assets/pokeBallGif.gif";
 
 export function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
-  const { setUserId } = useContext(TrainerContexts)
+  const { setUserId } = useContext(TrainerContexts);
 
   const handleLoginFirebase = async () => {
     try {
-      const userCredential = await app.auth().signInWithEmailAndPassword(email, password);
-      const user = userCredential.user
-      setUserId(user.uid)
-      navigation.navigate("Home")
+      const userCredential = await app
+        .auth()
+        .signInWithEmailAndPassword(email, password);
+      const user = userCredential.user;
+      setUserId(user.uid);
+      navigation.navigate("Home");
     } catch (error) {
-      setError(true)
-      console.log(error)
+      setError(true);
+      console.log(error);
     }
   };
 
   useEffect(() => {
-    app.auth().onAuthStateChanged((user)=> {
-      if(user) {
+    app.auth().onAuthStateChanged((user) => {
+      if (user) {
         setUserId(user.uid);
         setEmail("");
         setPassword("");
         navigation.navigate("Home");
       }
-    })
+    });
   }, []);
 
   return (
     <Container behavior={Platform.OS === "ios" ? "padding" : "height"}>
-      <Title>PokeApp</Title>
+      <TitleContainer>
+        <Title>PokeApp </Title>
+        <Logo source={logo} />
+      </TitleContainer>
       <Input
         placeholder="enter your e-mail"
         type="text"
@@ -80,7 +88,10 @@ export function Login({ navigation }) {
 
       <RegisterLabel>
         Don't have a registration?
-        <RegisterLink onPress={()=> navigation.navigate("Register")}> Sign up now...</RegisterLink>
+        <RegisterLink onPress={() => navigation.navigate("Register")}>
+          {" "}
+          Sign up now...
+        </RegisterLink>
       </RegisterLabel>
     </Container>
   );

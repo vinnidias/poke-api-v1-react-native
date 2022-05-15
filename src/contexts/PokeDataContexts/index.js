@@ -8,10 +8,7 @@ export const PokeDataProvider = ({children}) => {
   const setData = (data) => {
     setFullPokemonData(({...data}))
   }
-  
-  React.useEffect(()=> {
-    console.log("full data on context:", fullPokemonData)
-  },[fullPokemonData])
+
 
   return(
     <PokeDataContexts.Provider value={{
